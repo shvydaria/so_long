@@ -16,22 +16,23 @@ MLX42_LIB = $(MLX42_DIR)/build/libMLX42.a
 
 LDFLAGS =  -L$(MLX42_DIR)/build MLX42/build/libmlx42.a -ldl -lglfw -lm -pthread
 
-SRCS	= src/so_long.c src/map_utils.c src/map_validation.c \
-		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
-OBJS	:= $(SRCS:%.c=%.o)
+SRCS = src/so_long.c src/map_utils.c src/map_validation.c src/texture_manager.c \
+       src/image_handler.c src/render.c src/player.c \
+       get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
+OBJ := $(SRCS:%.c=%.o)
 
 LIB_PATH = ./$(LIB_NAME)
 PRINTF_PATH = ./$(PRINTF)
 
-$(NAME): $(OBJ) $(LIB_PATH)/$(LIB_NAME).a $(PRINTF_PATH)/$(PRINTF).a $(MLX42_LIB)
+$(NAME): $(OBJ) $(LIB_PATH)/$(LIB_NAME).a $(PRINTF_PATH)/libftprintf.a $(MLX42_LIB)
 	@echo "$(GREEN)$(NAME) has started running $(RESET)"
-	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $(NAME)
+	$(CC) $(OBJ) -o $(NAME) $(LDFLAGS) -L$(LIB_PATH) -lft -L$(PRINTF_PATH) -lftprintf
 	@echo "$(GREEN)$(NAME) has ran $(RESET)"
 
 $(LIB_PATH)/$(LIB_NAME).a:
 	make -C $(LIB_PATH)
 
-$(PRINTF_PATH)/$(PRINTF).a:
+$(PRINTF_PATH)/libftprintf.a:
 	make -C $(PRINTF_PATH)
 
 $(MLX42_LIB):
@@ -39,7 +40,7 @@ $(MLX42_LIB):
 	cmake --build $(MLX42_DIR)/build
 
 %.o:	%.c
-		${CC} ${CFLAGS} -Ilibft -Ift_printf -c $? -o $@
+		$(CC) $(CFLAGS) -I$(LIB_PATH) -I$(PRINTF_PATH) -I$(MLX42_DIR)/include -c $< -o $@
 
 libft:
 		make -C libft
@@ -50,7 +51,7 @@ ft_printf:
 clean:
 	make clean -C $(LIB_PATH)
 	make clean -C $(PRINTF_PATH)
-	${RM} ${OBJS}
+	${RM} ${OBJ}
 
 fclean: clean
 	${RM} $(NAME)

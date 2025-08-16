@@ -29,7 +29,7 @@ char	*update_buff(char *buffer);
 // utility functions
 char	*ft_strchr(const char *str, int chr);
 size_t	ft_strlen(const char *str);
-char	*ft_strjoin(char *s1, char *s2);
+char	*gnl_strjoin(char *s1, char *s2);
 void	*ft_calloc(size_t num, size_t size);
 void	ft_bzero(void *s, size_t n);
 

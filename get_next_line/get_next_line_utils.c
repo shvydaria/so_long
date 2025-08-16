@@ -45,7 +45,7 @@ size_t	ft_strlen(const char *str)
 }
 
 // allocates and returns a concat of s1&s2 as a new string
-char	*ft_strjoin(char *s1, char *s2)
+char	*gnl_strjoin(char *s1, char *s2)
 {
 	char			*res;
 	size_t			total_size;

@@ -57,8 +57,7 @@ char	*read_file_to_str(char *filename)
 char	**split_to_2d_array(char *map_str)
 {
 	char	**map;
-	int		i;
-
+	
 	if (!map_str)
 		return (NULL);
 	map = ft_split(map_str, '\n');
@@ -70,7 +69,7 @@ char	**split_to_2d_array(char *map_str)
 
 int	is_map_rectangular(char **map)
 {
-	int	len;
+	size_t len;
 	int	i;
 
 	if (!map || !map[0])

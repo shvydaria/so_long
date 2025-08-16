@@ -115,26 +115,39 @@ Basic error handling
 3. Asset Management
 
 Load textures for:
-	Walls
-	Player
-	Collectibles
-	Exit
-	Empty space
+	Walls 
+	Player ✅
+	Collectibles ✅
+	Exit 
+	Empty space 
 Create texture loading/handling functions
+
+<!-- The workflow is:
+
+Load PNG files → Textures (using texture_manager.c)
+Convert Textures → Images (using image_handler.c)
+Display Images on screen (which we'll do next) -->
 
 4. Rendering System
 
-Draw map function
-Draw player function
-Draw collectibles
-Basic refresh mechanism
-
+Draw map function:
+	- Loop through the map array
+	- Place correct images based on characters ('1' for walls, '0' for empty, etc.)
+Draw player function:
+	- Find player position ('P' in map)
+	- Place player image at correct coordinates
+Draw collectibles:
+	- Find collectible positions ('C' in map)
+	- Place collectible images
+Basic refresh mechanism:
+	- Setup MLX loop hooks for rendering
+	- Update display when changes occur
 
 5. Player Movement
 
-Handle keyboard input (W, A, S, D)
-Collision detection with walls
-Move counter
+Handle keyboard input (W, A, S, D) ✅
+Collision detection with walls ✅
+Move counter -------> UPDATED FROM PRINTF
 Display moves in shell
 
 
@@ -183,3 +196,16 @@ maps (.ber files)
 MLX42
 src
 MAKEFILE
+
+
+
+main function:
+Initialize game struct & validate map (already correct)
+Initialize MLX and window (already correct)
+Load textures and images (already correct)
+Initialize player position (already correct)
+Set up hooks ✅
+Initial render ✅
+
+
+sprite sheet contains 18 frames (6 columns × 3 rows) of the duck character.

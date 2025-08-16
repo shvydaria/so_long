@@ -17,7 +17,7 @@ char	*append_buffer(char *buffer, char *small_buffer)
 {
 	char	*temp;
 
-	temp = ft_strjoin(buffer, small_buffer);
+	temp = gnl_strjoin(buffer, small_buffer);
 	free(buffer);
 	buffer = NULL;
 	return (temp);
