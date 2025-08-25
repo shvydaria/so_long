@@ -23,7 +23,7 @@ void	handle_keypress(mlx_key_data_t keydata, void *param)
 	moved = false;
 	if (keydata.action != MLX_PRESS)
 		return ;
-	// Store current position
+	// store current position
 	new_x = game->player_x;
 	new_y = game->player_y;
 	// which key was pressed and update position
@@ -60,7 +60,7 @@ void	init_player(t_game *game)
 	int	y;
 	int	x;
 
-	// Find player starting position
+	// find player starting position
 	y = 0;
 	while (game->map[y])
 	{

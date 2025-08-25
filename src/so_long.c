@@ -11,13 +11,7 @@
 
 #include "../include/so_long.h"
 
-// Validates command-line arguments
-// Reads and validates the map
-// Initializes MLX with correct window size based on map
-// Creates window
-// Starts game loop
 // Handles cleanup
-
 void	cleanup_game(t_game *game)
 {
 	int	i;
@@ -56,11 +50,12 @@ void	init_mlx(t_game *game)
 	}
 }
 
+// Create window image
+// Display the image
 void	init_window(t_game *game)
 {
 	mlx_image_t	*window_image;
 
-	// Create window image
 	window_image = mlx_new_image(game->mlx, game->mlx->width,
 			game->mlx->height);
 	if (!window_image)
@@ -69,7 +64,6 @@ void	init_window(t_game *game)
 		cleanup_game(game);
 		exit(1);
 	}
-	// Display the image
 	if (mlx_image_to_window(game->mlx, window_image, 0, 0) < 0)
 	{
 		ft_printf("Error\nFailed to put image to window\n");

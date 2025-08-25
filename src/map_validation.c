@@ -12,8 +12,7 @@
 
 #include "../include/so_long.h"
 
-// Makes sure your map only contains valid characters ('0', '1', 'C', 'E', 'P')
-// Without this, you might try to render invalid characters later
+// only valid characters ('0', '1', 'C', 'E', 'P')
 int	check_characters(char **map)
 {
 	int	i;
@@ -35,8 +34,7 @@ int	check_characters(char **map)
 	return (1);
 }
 
-// Ensures the map is surrounded by walls ('1')
-// Without this, your player could walk off the map!
+// map is surrounded by walls ('1')
 int	check_walls(char **map)
 {
 	int	i;
@@ -63,12 +61,10 @@ int	check_walls(char **map)
 	}
 	return (1);
 }
-// Makes sure you have:
+
 // Exactly 1 player (P)
 // Exactly 1 exit (E)
-// At least 1 collectible (C)
-// Without this, your game wouldn't be playable
-
+// At least 1 collectible (C)s
 int	count_elements(char **map, char c)
 {
 	int	count;
@@ -90,8 +86,8 @@ int	count_elements(char **map, char c)
 	}
 	return (count);
 }
-// Runs all these checks and prints appropriate error messages
 
+// Runs all these checks and prints appropriate error messages
 int	validate_map(char **map)
 {
 	if (!is_map_rectangular(map))

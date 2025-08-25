@@ -18,34 +18,39 @@ void	render_player(t_game *game, int px, int py)
 	mlx_image_t		*player_frame;
 	uint32_t		frame_x;
 	uint32_t		frame_y;
+	uint32_t		pos;
+	uint32_t		y;
+	uint32_t		x;
 
 	player_tex = game->textures->player;
 	if (game->current_player_frame)
 		mlx_delete_image(game->mlx, game->current_player_frame);
-	
 	frame_x = (game->current_frame % SPRITE_FRAMES) * SPRITE_WIDTH;
-	frame_y = ((game->current_frame / SPRITE_FRAMES) % SPRITE_ROWS) * SPRITE_HEIGHT;
-	
-	// Create a temporary image with the full texture
+	frame_y = ((game->current_frame / SPRITE_FRAMES) % SPRITE_ROWS)
+		* SPRITE_HEIGHT;
+	// create a temporary image with the full texture
 	player_frame = mlx_texture_to_image(game->mlx, player_tex);
 	if (!player_frame)
-		return;
-
-	// Crop the image by making all pixels outside our frame transparent
-	for (uint32_t y = 0; y < player_tex->height; y++)
+		return ;
+	// crop the image by making all pixels outside our frame transparent
+	y = 0;
+	while (y < player_tex->height)
 	{
-		for (uint32_t x = 0; x < player_tex->width; x++)
+		x = 0;
+		while (x < player_tex->width)
 		{
-			if (x < frame_x || x >= frame_x + SPRITE_WIDTH ||
-				y < frame_y || y >= frame_y + SPRITE_HEIGHT)
+			if (x < frame_x || x >= frame_x + SPRITE_WIDTH || y < frame_y
+				|| y >= frame_y + SPRITE_HEIGHT)
 			{
-				uint32_t pos = (y * player_tex->width + x) * 4;
+				pos = (y * player_tex->width + x) * 4;
 				player_frame->pixels[pos + 3] = 0; // Set alpha to 0
 			}
+			x++;
 		}
+		y++;
 	}
-	
-	if (mlx_image_to_window(game->mlx, player_frame, px * TILE_SIZE, py * TILE_SIZE) >= 0)
+	if (mlx_image_to_window(game->mlx, player_frame, px * TILE_SIZE, py
+			* TILE_SIZE) >= 0)
 		game->current_player_frame = player_frame;
 	else
 		mlx_delete_image(game->mlx, player_frame);
@@ -95,7 +100,6 @@ void	render_map(t_game *game)
 // Clear previous frame
 // Render new frame
 // Update animation frame
-
 void	refresh_game(void *param)
 {
 	t_game		*game;

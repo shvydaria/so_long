@@ -11,21 +11,12 @@
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
-
-// fd = open(filename, O_RDONLY);
-
-// This opens the file in read-only mode
-// Returns a file descriptor (fd):
-// If successful: returns a positive number (3 or higher, because 0, 1, and 2 are reserved for stdin, stdout, and stderr)
-// If failed: returns -1
+// (3 or higher, because 0, 1, and 2 are reserved for stdin, stdout, and stderr)
+// if failed: returns -1
 // if (fd < 0)
-
-// Checks if file opening failed
-// We return NULL if we couldn't open the file
 // map_str = ft_strdup("");
-
-// Creates an empty string to start with
-// We'll append each line to this string
+// creates an empty string to start with
+// append each line to this string
 
 char	*read_file_to_str(char *filename)
 {
@@ -51,13 +42,13 @@ char	*read_file_to_str(char *filename)
 	close(fd);
 	return (map_str);
 }
+
 // Convert the map from a single string to a 2D array
 // Verify that all rows have the same length (map is rectangular)
-
 char	**split_to_2d_array(char *map_str)
 {
 	char	**map;
-	
+
 	if (!map_str)
 		return (NULL);
 	map = ft_split(map_str, '\n');
@@ -65,7 +56,6 @@ char	**split_to_2d_array(char *map_str)
 		return (NULL);
 	return (map);
 }
-
 
 int	is_map_rectangular(char **map)
 {

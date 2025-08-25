@@ -27,17 +27,14 @@ void	free_textures(t_textures *textures)
 	free(textures);
 }
 
-void debug_texture(mlx_texture_t *texture)
+void	debug_texture(mlx_texture_t *texture)
 {
-    ft_printf("Texture dimensions: %dx%d\n", texture->width, texture->height);
+	ft_printf("Texture dimensions: %dx%d\n", texture->width, texture->height);
 }
-// Creates a pointer to store our structure
-// Allocates memory for the structure
-// The arrow -> is used when working with pointers to structures
-// It's equivalent to (*textures).wall
-// We use -> because textures is a pointer
-// The function basically creates a container (structure) to hold all textures in one organized package
 
+// creates a pointer to store structure
+// allocates memory for the structure
+// creates a container (structure) to hold all textures in one organized package
 t_textures	*load_textures(void)
 {
 	t_textures	*textures;
@@ -47,7 +44,7 @@ t_textures	*load_textures(void)
 		return (NULL);
 	textures->wall = mlx_load_png("./assets/wall.png");
 	textures->player = mlx_load_png("./assets/ducky_spritesheet.png");
-	debug_texture(textures->player); 
+	debug_texture(textures->player);
 	textures->collectible = mlx_load_png("./assets/collectible.png");
 	textures->exit = mlx_load_png("./assets/exit.png");
 	textures->empty = mlx_load_png("./assets/ground.png");
