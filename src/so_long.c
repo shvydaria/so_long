@@ -16,6 +16,13 @@ void	cleanup_game(t_game *game)
 {
 	int	i;
 
+	// Free collectible tracking arrays
+	if (game->collectible_instances)
+		free(game->collectible_instances);
+	
+	if (game->collectible_positions)
+		free(game->collectible_positions);
+	
 	if (game->map)
 	{
 		i = 0;
@@ -26,8 +33,10 @@ void	cleanup_game(t_game *game)
 		}
 		free(game->map);
 	}
-	if (game->current_player_frame)
-		mlx_delete_image(game->mlx, game->current_player_frame);
+	
+	if (game->player_image)
+		mlx_delete_image(game->mlx, game->player_image);
+		
 	if (game->mlx)
 		mlx_terminate(game->mlx);
 }
@@ -85,6 +94,7 @@ int	main(int argc, char **argv)
 	}
 	// Initialize game struct
 	ft_memset(&game, 0, sizeof(t_game));
+	
 	// Read and validate map
 	map_str = read_file_to_str(argv[1]);
 	if (!map_str)
@@ -99,6 +109,11 @@ int	main(int argc, char **argv)
 		cleanup_game(&game);
 		return (1);
 	}
+	if (!is_path_valid(&game))
+    {
+        cleanup_game(&game);
+        return (1);
+    }
 	// Initialize MLX and window
 	init_mlx(&game);
 	init_window(&game);
@@ -109,6 +124,7 @@ int	main(int argc, char **argv)
 		cleanup_game(&game);
 		return (1);
 	}
+	
 	game.images = init_images(&game);
 	if (!game.images)
 	{
@@ -116,12 +132,13 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	// After loading textures and images...
-	init_player(&game);
-	// Set up all hooks
-	mlx_key_hook(game.mlx, &handle_keypress, &game);
-	mlx_loop_hook(game.mlx, &refresh_game, &game);
-	// Initial render
 	render_map(&game);
+	init_collectibles(&game);
+	init_player(&game);
+	
+	// Set up all hooks
+	mlx_key_hook(game.mlx, &my_key_hook, &game);
+	
 	// Start game loop
 	mlx_loop(game.mlx);
 	cleanup_game(&game);

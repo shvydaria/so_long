@@ -17,7 +17,7 @@ MLX42_LIB = $(MLX42_DIR)/build/libMLX42.a
 LDFLAGS =  -L$(MLX42_DIR)/build MLX42/build/libmlx42.a -ldl -lglfw -lm -pthread
 
 SRCS = src/so_long.c src/map_utils.c src/map_validation.c src/texture_manager.c \
-       src/image_handler.c src/render.c src/player.c \
+       src/image_handler.c src/render.c src/player.c src/path_validation.c \
        get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 OBJ := $(SRCS:%.c=%.o)
 
@@ -54,6 +54,14 @@ clean:
 	${RM} ${OBJ}
 
 fclean: clean
+	${RM} $(NAME)
+	make fclean -C $(LIB_PATH)
+	make fclean -C $(PRINTF_PATH)
+
+cln:
+	make clean -C $(LIB_PATH)
+	make clean -C $(PRINTF_PATH)
+	${RM} ${OBJ}
 	${RM} $(NAME)
 	make fclean -C $(LIB_PATH)
 	make fclean -C $(PRINTF_PATH)

@@ -209,3 +209,10 @@ Initial render ✅
 
 
 sprite sheet contains 18 frames (6 columns × 3 rows) of the duck character.
+
+
+if (game->map[new_y][new_x] == 'C')
+{
+    game->collectibles--;
+    game->map[new_y][new_x] = '0';  // Changes the map character to empty space
+}

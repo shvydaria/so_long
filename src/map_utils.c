@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dashvydk <dashvydk@student.42.fr>          #+#  +:+       +#+        */
+/*   By: dshvydka <dshvydka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-14 12:30:01 by dashvydk          #+#    #+#             */
-/*   Updated: 2025-08-14 12:30:01 by dashvydk         ###   ########.fr       */
+/*   Created: 2025/08/14 12:30:01 by dashvydk          #+#    #+#             */
+/*   Updated: 2025/08/26 19:15:01 by dshvydka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,47 @@ int	is_map_rectangular(char **map)
 		i++;
 	}
 	return (1);
+}
+char	*ft_strarr_join(char **arr)
+{
+    char	*result;
+    size_t	total_len;
+    int		i;
+
+    if (!arr || !arr[0])
+        return (NULL);
+    total_len = 0;
+    i = 0;
+    while (arr[i])
+    {
+        total_len += ft_strlen(arr[i]) + 1; // +1 for newline
+        i++;
+    }
+    result = (char *)malloc(sizeof(char) * (total_len + 1));
+    if (!result)
+        return (NULL);
+    result[0] = '\0';
+    i = 0;
+    while (arr[i])
+    {
+        ft_strlcat(result, arr[i], total_len + 1);
+        ft_strlcat(result, "\n", total_len + 1);
+        i++;
+    }
+    return (result);
+}
+
+void	ft_free_str_array(char **arr)
+{
+    int	i;
+
+    if (!arr)
+        return;
+    i = 0;
+    while (arr[i])
+    {
+        free(arr[i]);
+        i++;
+    }
+    free(arr);
 }
