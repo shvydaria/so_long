@@ -27,10 +27,10 @@ char	*read_from_file(char *buffer, int fd);
 char	*extract_line(char *buffer);
 char	*update_buff(char *buffer);
 // utility functions
-char	*ft_strchr(const char *str, int chr);
-size_t	ft_strlen(const char *str);
+char	*gnl_strchr(const char *str, int chr);
+size_t	gnl_strlen(const char *str);
 char	*gnl_strjoin(char *s1, char *s2);
-void	*ft_calloc(size_t num, size_t size);
-void	ft_bzero(void *s, size_t n);
+void	*gnl_calloc(size_t num, size_t size);
+void	gnl_bzero(void *s, size_t n);
 
 #endif

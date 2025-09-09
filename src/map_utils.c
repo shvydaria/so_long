@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dshvydka <dshvydka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dashvydk <dashvydk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:30:01 by dashvydk          #+#    #+#             */
-/*   Updated: 2025/08/26 19:15:01 by dshvydka         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:41:08 by dashvydk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
 // (3 or higher, because 0, 1, and 2 are reserved for stdin, stdout, and stderr)
 // if failed: returns -1
 // if (fd < 0)
@@ -59,8 +60,8 @@ char	**split_to_2d_array(char *map_str)
 
 int	is_map_rectangular(char **map)
 {
-	size_t len;
-	int	i;
+	size_t	len;
+	int		i;
 
 	if (!map || !map[0])
 		return (0);
@@ -74,46 +75,47 @@ int	is_map_rectangular(char **map)
 	}
 	return (1);
 }
+
 char	*ft_strarr_join(char **arr)
 {
-    char	*result;
-    size_t	total_len;
-    int		i;
+	char	*result;
+	size_t	total_len;
+	int		i;
 
-    if (!arr || !arr[0])
-        return (NULL);
-    total_len = 0;
-    i = 0;
-    while (arr[i])
-    {
-        total_len += ft_strlen(arr[i]) + 1; // +1 for newline
-        i++;
-    }
-    result = (char *)malloc(sizeof(char) * (total_len + 1));
-    if (!result)
-        return (NULL);
-    result[0] = '\0';
-    i = 0;
-    while (arr[i])
-    {
-        ft_strlcat(result, arr[i], total_len + 1);
-        ft_strlcat(result, "\n", total_len + 1);
-        i++;
-    }
-    return (result);
+	if (!arr || !arr[0])
+		return (NULL);
+	total_len = 0;
+	i = 0;
+	while (arr[i])
+	{
+		total_len += ft_strlen(arr[i]) + 1;
+		i++;
+	}
+	result = (char *)malloc(sizeof(char) * (total_len + 1));
+	if (!result)
+		return (NULL);
+	result[0] = '\0';
+	i = 0;
+	while (arr[i])
+	{
+		ft_strlcat(result, arr[i], total_len + 1);
+		ft_strlcat(result, "\n", total_len + 1);
+		i++;
+	}
+	return (result);
 }
 
 void	ft_free_str_array(char **arr)
 {
-    int	i;
+	int	i;
 
-    if (!arr)
-        return;
-    i = 0;
-    while (arr[i])
-    {
-        free(arr[i]);
-        i++;
-    }
-    free(arr);
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }

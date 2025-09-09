@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dashvydk <dashvydk@student.42.fr>          #+#  +:+       +#+        */
+/*   By: dashvydk <dashvydk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-04-24 12:48:33 by dashvydk          #+#    #+#             */
-/*   Updated: 2025-04-24 12:48:33 by dashvydk         ###   ########.fr       */
+/*   Created: 2025/04/24 12:48:33 by dashvydk          #+#    #+#             */
+/*   Updated: 2025/08/27 16:00:16 by dashvydk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "libftprintf.h"
 
 // %c %s %p %d%i %u %xX %

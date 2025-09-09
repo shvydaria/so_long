@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dshvydka <dshvydka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dashvydk <dashvydk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 10:59:26 by dashvydk          #+#    #+#             */
-/*   Updated: 2025/08/26 19:15:59 by dshvydka         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:08:00 by dashvydk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
-# define TILE_SIZE 32      // Base size for all tiles
-# define MOVE 32          // Movement distance
-# define MAP_WALL '1'     // Wall character in map
+# define TILE_SIZE 32 // Base size for all tiles
+# define MOVE 32      // Movement distance
+# define MAP_WALL '1' // Wall character in map
 
-# include "../MLX42/include/MLX42/MLX42.h"
-# include "../get_next_line/get_next_line.h"
+# include <MLX42/MLX42.h>
+# include "get_next_line.h"
 # include "libft.h"
 # include "libftprintf.h"
 # include <fcntl.h>
@@ -51,6 +51,12 @@ typedef struct s_collectible
 	int				collected;
 }					t_collectible;
 
+typedef struct s_point
+{
+	int				x;
+	int				y;
+}					t_point;
+
 typedef struct s_game
 {
 	char			**map;
@@ -61,9 +67,9 @@ typedef struct s_game
 	mlx_t			*mlx;
 	t_textures		*textures;
 	t_images		*images;
-	mlx_image_t		*player_image;  // Player image instance
-	int32_t			*collectible_instances; // Array of collectible instance IDs
-	int				*collectible_positions; // Array of collectible positions [x1,y1,x2,y2,...]
+	mlx_image_t		*player_image;
+	int32_t			*collectible_instances;
+	int				*collectible_positions;
 }					t_game;
 
 // Map utils
@@ -86,7 +92,7 @@ void				free_textures(t_textures *textures);
 
 // Image handling
 t_images			*init_images(t_game *game);
-void				free_images(t_game *game);
+void				free_images(mlx_t *mlx, t_images *images);
 
 // Rendering
 void				render_map(t_game *game);
@@ -101,11 +107,11 @@ void				move_right(t_game *game);
 void				move_down(t_game *game);
 void				move_left(t_game *game);
 void				my_key_hook(mlx_key_data_t keydata, void *param);
-void				collect_collectibles(t_game *game);
 void				check_player_position(t_game *game);
 
 // Game management
 void				cleanup_game(t_game *game);
+int					init_game_data(t_game *game, char *map_file);
+int					setup_graphics_and_objects(t_game *game);
 
 #endif
-

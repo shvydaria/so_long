@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dashvydk <dashvydk@student.42.fr>          #+#    #+#             */
-/*   Created: 2025-08-14 11:30:22 by dashvydk          #+#    #+#             */
-/*   Updated: 2025-08-14 11:30:22 by dashvydk         ###   ########.fr       */
+/*   By: dashvydk <dashvydk@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/27 16:05:30 by dashvydk          #+#    #+#             */
+/*   Updated: 2025/08/28 14:36:14 by dashvydk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +17,14 @@ void	cleanup_game(t_game *game)
 {
 	int	i;
 
-	// Free collectible tracking arrays
+	if (game->textures)
+		free_textures(game->textures);
+	if (game->images)
+		free_images(game->mlx, game->images);
 	if (game->collectible_instances)
 		free(game->collectible_instances);
-	
 	if (game->collectible_positions)
-		free(game->collectible_positions);
-	
+		free(game->collectible_instances);
 	if (game->map)
 	{
 		i = 0;
@@ -33,113 +35,27 @@ void	cleanup_game(t_game *game)
 		}
 		free(game->map);
 	}
-	
 	if (game->player_image)
 		mlx_delete_image(game->mlx, game->player_image);
-		
 	if (game->mlx)
 		mlx_terminate(game->mlx);
-}
-
-void	init_mlx(t_game *game)
-{
-	int	width;
-	int	height;
-
-	height = 0;
-	while (game->map[height])
-		height++;
-	width = ft_strlen(game->map[0]);
-	game->mlx = mlx_init(width * 32, height * 32, "so_long", true);
-	if (!game->mlx)
-	{
-		ft_printf("Error\nFailed to initialize MLX42\n");
-		cleanup_game(game);
-		exit(1);
-	}
-}
-
-// Create window image
-// Display the image
-void	init_window(t_game *game)
-{
-	mlx_image_t	*window_image;
-
-	window_image = mlx_new_image(game->mlx, game->mlx->width,
-			game->mlx->height);
-	if (!window_image)
-	{
-		ft_printf("Error\nFailed to create window image\n");
-		cleanup_game(game);
-		exit(1);
-	}
-	if (mlx_image_to_window(game->mlx, window_image, 0, 0) < 0)
-	{
-		ft_printf("Error\nFailed to put image to window\n");
-		mlx_delete_image(game->mlx, window_image);
-		cleanup_game(game);
-		exit(1);
-	}
 }
 
 int	main(int argc, char **argv)
 {
 	t_game	game;
-	char	*map_str;
+	int		len;
 
 	if (argc != 2)
-	{
-		ft_printf("Error\nUsage: ./so_long <map.ber>\n");
+		return (ft_printf("Error\nUsage: ./so_long <map.ber>\n"), 1);
+	len = ft_strlen(argv[1]);
+	if (len < 5 || ft_strncmp(argv[1] + len - 4, ".ber", 4) != 0)
+		return (ft_printf("Error\nMap file must have a .ber extension\n"), 1);
+	if (!init_game_data(&game, argv[1]))
 		return (1);
-	}
-	// Initialize game struct
-	ft_memset(&game, 0, sizeof(t_game));
-	
-	// Read and validate map
-	map_str = read_file_to_str(argv[1]);
-	if (!map_str)
-	{
-		ft_printf("Error\nFailed to read map file\n");
+	if (!setup_graphics_and_objects(&game))
 		return (1);
-	}
-	game.map = split_to_2d_array(map_str);
-	free(map_str);
-	if (!game.map || !validate_map(game.map))
-	{
-		cleanup_game(&game);
-		return (1);
-	}
-	if (!is_path_valid(&game))
-    {
-        cleanup_game(&game);
-        return (1);
-    }
-	// Initialize MLX and window
-	init_mlx(&game);
-	init_window(&game);
-	// Load textures and images
-	game.textures = load_textures();
-	if (!game.textures)
-	{
-		cleanup_game(&game);
-		return (1);
-	}
-	
-	game.images = init_images(&game);
-	if (!game.images)
-	{
-		cleanup_game(&game);
-		return (1);
-	}
-	// After loading textures and images...
-	render_map(&game);
-	init_collectibles(&game);
-	init_player(&game);
-	
-	// Set up all hooks
 	mlx_key_hook(game.mlx, &my_key_hook, &game);
-	
-	// Start game loop
 	mlx_loop(game.mlx);
 	cleanup_game(&game);
 	return (0);

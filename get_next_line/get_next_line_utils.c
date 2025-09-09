@@ -13,7 +13,7 @@
 #include "get_next_line.h"
 
 // finds 1st occurrence of the character c in the string s
-char	*ft_strchr(const char *str, int chr)
+char	*gnl_strchr(const char *str, int chr)
 {
 	char	ch;
 
@@ -34,7 +34,7 @@ char	*ft_strchr(const char *str, int chr)
 }
 
 // returns length of string
-size_t	ft_strlen(const char *str)
+size_t	gnl_strlen(const char *str)
 {
 	int	i;
 
@@ -54,7 +54,7 @@ char	*gnl_strjoin(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	total_size = ft_strlen(s1) + ft_strlen(s2);
+	total_size = gnl_strlen(s1) + gnl_strlen(s2);
 	res = malloc(sizeof(char) * (total_size + 1));
 	if (!res)
 		return (NULL);
@@ -73,18 +73,18 @@ char	*gnl_strjoin(char *s1, char *s2)
 
 // allocates memory for an array of num elements of size bytes each.
 // the memory is set to zero.
-void	*ft_calloc(size_t num, size_t size)
+void	*gnl_calloc(size_t num, size_t size)
 {
 	char	*ptr;
 
 	ptr = malloc(size * num);
 	if (!ptr)
 		return (NULL);
-	ft_bzero(ptr, size * num);
+	gnl_bzero(ptr, size * num);
 	return (ptr);
 }
 
-void	ft_bzero(void *s, size_t n)
+void	gnl_bzero(void *s, size_t n)
 {
 	char	*p;
 	size_t	i;

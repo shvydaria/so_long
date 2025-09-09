@@ -28,11 +28,11 @@ char	*read_from_file(char *buffer, int fd)
 	int		bytes_read;
 	char	*small_buffer;
 
-	small_buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	small_buffer = gnl_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (small_buffer == NULL)
 		return (NULL);
 	if (!buffer)
-		buffer = ft_calloc(1, sizeof(char));
+		buffer = gnl_calloc(1, sizeof(char));
 	if (buffer == NULL)
 		return (free(small_buffer), NULL);
 	bytes_read = 1;
@@ -45,7 +45,7 @@ char	*read_from_file(char *buffer, int fd)
 		buffer = append_buffer(buffer, small_buffer);
 		if (buffer == NULL)
 			return (NULL);
-		if (ft_strchr(buffer, '\n'))
+		if (gnl_strchr(buffer, '\n'))
 			break ;
 	}
 	free(small_buffer);
@@ -62,7 +62,7 @@ char	*extract_line(char *buffer)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	line = ft_calloc(i + 2, sizeof(char));
+	line = gnl_calloc(i + 2, sizeof(char));
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 	{
@@ -89,7 +89,7 @@ char	*update_buff(char *buffer)
 		buffer = NULL;
 		return (NULL);
 	}
-	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	line = gnl_calloc((gnl_strlen(buffer) - i + 1), sizeof(char));
 	i++;
 	j = 0;
 	while (buffer[i])

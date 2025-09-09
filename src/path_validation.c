@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dshvydka <dshvydka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dashvydk <dashvydk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 19:10:33 by dshvydka          #+#    #+#             */
-/*   Updated: 2025/08/26 19:10:49 by dshvydka         ###   ########.fr       */
+/*   Updated: 2025/08/28 14:36:39 by dashvydk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,76 +15,83 @@
 // A helper function to find the starting coordinates of a character
 static void	find_start_pos(char **map, int *x, int *y)
 {
-    *y = 0;
-    while (map[*y])
-    {
-        *x = 0;
-        while (map[*y][*x])
-        {
-            if (map[*y][*x] == 'P')
-                return;
-            (*x)++;
-        }
-        (*y)++;
-    }
+	*y = 0;
+	while (map[*y])
+	{
+		*x = 0;
+		while (map[*y][*x])
+		{
+			if (map[*y][*x] == 'P')
+				return ;
+			(*x)++;
+		}
+		(*y)++;
+	}
 }
 
 // The recursive flood-fill algorithm
-static void flood_fill(char **map_copy, int x, int y, int width, int height)
+// 'F' for "Filled"
+static void	flood_fill(char **map_copy, t_point pos, t_point size)
 {
-    // Base cases: stop if out of bounds, on a wall, or already visited.
-    if (y < 0 || y >= height || x < 0 || x >= width || 
-        map_copy[y][x] == '1' || map_copy[y][x] == 'F')
-    {
-        return;
-    }
+	if (pos.y < 0 || pos.y >= size.y || pos.x < 0 || pos.x >= size.x
+		|| map_copy[pos.y][pos.x] == '1' || map_copy[pos.y][pos.x] == 'F')
+	{
+		return ;
+	}
+	map_copy[pos.y][pos.x] = 'F';
+	flood_fill(map_copy, (t_point){pos.x + 1, pos.y}, size);
+	flood_fill(map_copy, (t_point){pos.x - 1, pos.y}, size);
+	flood_fill(map_copy, (t_point){pos.x, pos.y + 1}, size);
+	flood_fill(map_copy, (t_point){pos.x, pos.y - 1}, size);
+}
 
-    // Mark the current tile as 'F' for "Filled"
-    map_copy[y][x] = 'F';
+static int	check_items_reachable(char **map_copy)
+{
+	int	x;
+	int	y;
 
-    // Recursively call for all four directions
-    flood_fill(map_copy, x + 1, y, width, height);
-    flood_fill(map_copy, x - 1, y, width, height);
-    flood_fill(map_copy, x, y + 1, width, height);
-    flood_fill(map_copy, x, y - 1, width, height);
+	y = 0;
+	while (map_copy[y])
+	{
+		x = 0;
+		while (map_copy[y][x])
+		{
+			if (map_copy[y][x] == 'C' || map_copy[y][x] == 'E')
+			{
+				ft_printf("Error\nMap has an invalid path."
+					"Unreachable item or exit.\n");
+				return (0);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (1);
 }
 
 // Main function to check if the path is valid
 int	is_path_valid(t_game *game)
 {
-    char	**map_copy;
-    int		x;
-    int		y;
-    int		height;
+	char	**map_copy;
+	char	*map_str;
+	t_point	size;
+	t_point	start;
+	int		is_valid;
 
-    map_copy = split_to_2d_array(ft_strarr_join(game->map));
-    if (!map_copy)
-        return (0);
-
-    height = 0;
-    while(game->map[height])
-        height++;
-
-    find_start_pos(map_copy, &x, &y);
-    flood_fill(map_copy, x, y, ft_strlen(map_copy[0]), height);
-
-    y = 0;
-    while (map_copy[y])
-    {
-        x = 0;
-        while (map_copy[y][x])
-        {
-            // If we find a collectible or exit that wasn't filled, path is invalid
-            if (map_copy[y][x] == 'C' || map_copy[y][x] == 'E')
-            {
-                ft_printf("Error\nMap has an invalid path. Unreachable item or exit.\n");
-                ft_free_str_array(map_copy);
-                return (0);
-            }
-            x++;
-        }
-        y++;
-    }
-    ft_free_str_array(map_copy);
-    return (1);
+	map_str = ft_strarr_join(game->map);
+	if (!map_str)
+		return (0);
+	map_copy = split_to_2d_array(map_str);
+	free(map_str);
+	if (!map_copy)
+		return (0);
+	size.y = 0;
+	while (game->map[size.y])
+		size.y++;
+	size.x = ft_strlen(map_copy[0]);
+	find_start_pos(map_copy, &start.x, &start.y);
+	flood_fill(map_copy, start, size);
+	is_valid = check_items_reachable(map_copy);
+	ft_free_str_array(map_copy);
+	return (is_valid);
 }
