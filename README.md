@@ -72,68 +72,68 @@ In the end… I just went with a **small duck** and a **big apple** 🍏🐤
 ---
 
 ✅ Example map (valid):  
-
+```
 1111111111111
 10010000000C1
 1000011111001
 1P0011E000001
 1111111111111
-
+```
 ❌ Example map (invalid): missing walls, multiple exits, etc. → should trigger error.  
 
 
 ![idk](img/IMG_5670.jpeg)
 
-# 📝 so_long To-Do
+# 📝 To-Do
 
-## 1. Map Handling
+## 1. Map Handling 🗺️
 - Read map file (`.ber`)  
 - Validate format (walls, rectangular, correct chars)  
 - Check required elements: 1 exit, 1 player, ≥1 collectible  
 
 ---
 
-## 2. Game Setup
+## 2. Game Setup ⚙️
 - Create game state struct (map, player, collectibles, moves)  
 - Init MLX42 + create window  
 - Add basic error handling  
 
 ---
 
-## 3. Assets
+## 3. Assets 🎨
 - Load textures (walls, player, collectibles, exit, empty)  
 - Write helpers for texture → image → display  
 
 ---
 
-## 4. Rendering
+## 4. Rendering 🖼️
 - Draw map (loop through chars)  
 - Place player & collectibles  
 - Refresh via MLX loop hooks  
 
 ---
 
-## 5. Player Movement
+## 5. Player Movement 🎮
 - Handle keys (WASD / arrows)  
 - Block walls, update moves  
 - Print move counter in shell  
 
 ---
 
-## 6. Game Logic
+## 6. Game Logic 🧩
 - Collect items  
 - Check exit condition  
 - Win: all collectibles + exit  
 
 ---
 
-## 7. Window & Exit
+## 7. Window & Exit 🚪
 - Handle ESC + window close (X)  
 - Clean exit  
 
 ---
 
-## 8. Memory & Testing
+## 8. Memory & Testing 🧹
 - Free memory, check leaks  
 - Test different maps + edge cases  
 - Handle errors gracefully  
